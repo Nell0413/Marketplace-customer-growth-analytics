@@ -1,4 +1,4 @@
-# Marketplace Customer Growth and Fulfilment Analytics
+# Marketplace Customer Growth Analytics
 
 **Independent portfolio project | SQL | Python | Power BI-ready model | Azure deployment blueprint**
 
