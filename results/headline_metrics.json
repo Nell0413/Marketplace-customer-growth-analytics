@@ -1,0 +1,59 @@
+{
+  "overall": {
+    "first_purchase_timestamp": "2016-09-15 12:16:38",
+    "last_purchase_timestamp": "2018-08-29 15:00:37",
+    "delivered_orders": 96478,
+    "observed_customers": 93358,
+    "delivered_gmv_brl": 13221498.11,
+    "freight_brl": 2198275.64,
+    "amount_paid_brl": 15422461.77,
+    "average_order_value_brl": 137.0415857501192,
+    "delivered_items": 110197.0,
+    "on_time_delivery_rate": 0.9188763346117964,
+    "average_delivery_days": 12.558217098051976,
+    "average_review_score": 4.156186520855942,
+    "low_review_rate": 0.1276922113698973,
+    "repeat_order_gmv_share": 0.02899966908515483
+  },
+  "repeat": {
+    "observed_customers": 93358.0,
+    "repeat_customers": 2801.0,
+    "repeat_customer_rate": 0.03000278497825575,
+    "repeat_customer_gmv_share": 0.05509275453808615
+  },
+  "growth_jan_to_jul_2018_vs_2017": {
+    "orders_2017_jan_jul": 17805.0,
+    "orders_2018_jan_jul": 46432.0,
+    "orders_growth": 1.6078067958438642,
+    "gmv_2017_jan_jul": 2438756.43,
+    "gmv_2018_jan_jul": 6379548.48,
+    "gmv_growth": 1.615902269502166,
+    "customer_growth": 1.6179742895025075
+  },
+  "delivery": {
+    "late_order_rate": 0.08112366538820359,
+    "on_time_average_review": 4.294292012144172,
+    "late_average_review": 2.566505678109907,
+    "on_time_low_review_rate": 0.09187527647652644,
+    "late_low_review_rate": 0.5398773006134969,
+    "low_review_rate_multiple_late_vs_on_time": 5.876197833825645
+  },
+  "retention": {
+    "eligible_90_day_customers": 75320,
+    "repeat_within_90_days_customers": 1714,
+    "repeat_within_90_days_rate": 0.022756240042485394
+  },
+  "rfm_opportunity": {
+    "at_risk_high_value_customers": 12790,
+    "at_risk_high_value_customer_share": 0.13699950727307783,
+    "at_risk_high_value_gmv_brl": 4472143.43,
+    "at_risk_high_value_gmv_share": 0.33824785911496075
+  },
+  "geography": {
+    "sp_gmv_share": 0.3832873640973504,
+    "top_three_state_gmv_share": 0.6337985340452468,
+    "sp_on_time_rate": 0.941052995505507,
+    "rj_on_time_rate": 0.8652631578947368,
+    "ba_on_time_rate": 0.8596437346437347
+  }
+}

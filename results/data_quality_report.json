@@ -1,0 +1,33 @@
+{
+  "raw_row_counts": {
+    "customers": 99441,
+    "geolocation": 1000163,
+    "order_items": 112650,
+    "order_payments": 103886,
+    "order_reviews": 99224,
+    "orders": 99441,
+    "products": 32951,
+    "sellers": 3095,
+    "category_translation": 71
+  },
+  "duplicate_customer_ids": 0,
+  "duplicate_order_ids": 0,
+  "duplicate_product_ids": 0,
+  "duplicate_seller_ids": 0,
+  "duplicate_order_item_keys": 0,
+  "orphan_item_orders": 0,
+  "orphan_item_products": 0,
+  "orphan_item_sellers": 0,
+  "negative_item_prices": 0,
+  "negative_freight_values": 0,
+  "fact_order_rows": 99441,
+  "fact_sales_rows": 112650,
+  "delivered_order_rows": 96478,
+  "delivered_gmv_from_order_fact": 13221498.11,
+  "delivered_gmv_from_item_fact": 13221498.11,
+  "gmv_reconciliation_difference": 0.0,
+  "review_coverage_delivered_orders": 0.9933041729720765,
+  "unknown_category_item_share": 0.014442964935641367,
+  "invalid_delivery_before_purchase": 0,
+  "rfm_high_value_threshold_brl": 154.7375
+}

@@ -1,0 +1,11 @@
+source_file,target_schema,target_table,load_order,enabled
+olist_customers_dataset.csv,stg,customers,1,1
+olist_geolocation_dataset.csv,stg,geolocation,2,1
+olist_order_items_dataset.csv,stg,order_items,3,1
+olist_order_payments_dataset.csv,stg,order_payments,4,1
+olist_order_reviews_dataset.csv,stg,order_reviews,5,1
+olist_orders_dataset.csv,stg,orders,6,1
+olist_products_dataset.csv,stg,products,7,1
+olist_sellers_dataset.csv,stg,sellers,8,1
+product_category_name_translation.csv,stg,category_translation,9,1
+
