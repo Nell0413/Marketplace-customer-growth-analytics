@@ -32,6 +32,25 @@ These previews were captured from the existing PBIX in Power BI Desktop with all
 
 Full definitions, regional findings and limitations: [Metrics and data quality](docs/METRICS_AND_QUALITY.md).
 
+## Recommendations
+
+- **Test a second-purchase journey:** use the low observed repeat-purchase rate as a starting point for a controlled post-purchase CRM experiment. Compare the 90-day second-purchase rate with a holdout group using the same complete follow-up window.
+- **Prioritise delivery exceptions by commercial value:** investigate high-GMV seller, category and regional combinations with weak on-time performance instead of applying a blanket operational response.
+- **Test targeted customer reactivation:** the rule-based **At-risk high-value** segment contains **12,790** customers and accounts for **33.8%** of observed GMV. Use it as a starting audience for a reactivation test, not as a validated churn prediction.
+- **Investigate RJ and BA service gaps:** compare seller, category and freight patterns behind their weaker on-time performance, while protecting service levels in SP, which contributes **38.3%** of delivered GMV. Carrier and route investigation would require additional operational data.
+
+These are recommendations for testing, not implemented interventions or measured improvements. See the [executive summary](results/executive_summary.md#commercial-interpretation) for the supporting interpretation.
+
+## Limitations
+
+- **Historical and market-specific data:** this independent project uses Brazilian marketplace data from **2016–2018** and has no affiliation with Olist. Findings do not describe current market behaviour or establish Australian consumer insights.
+- **A finite observation window:** the first and last months are partial. Observed repeat purchasing is not lifetime retention or customer lifetime value; the 90-day metric excludes customers without a complete follow-up window.
+- **Missing commercial inputs:** visits, carts and marketing spend are unavailable, so conversion, cart abandonment, CAC and ROAS cannot be calculated. Platform commissions and costs are also unavailable; **GMV is not revenue, profit or margin**.
+- **Association, not causation:** delivery and review results are observational and may reflect product, seller, regional or customer differences. Review coverage is incomplete, and missing reviews are excluded from review-rate denominators. No retention uplift or operational improvement has been measured.
+- **Implementation scope:** Azure is a deployment blueprint, not a deployed environment. Automated tests do not execute Power BI Desktop, DAX or Power Query; the new layout candidate and cross-directory refresh still require [Windows validation](docs/WINDOWS_VALIDATION.md).
+
+Credit belongs to Olist and the dataset contributors. See [full metric definitions and limitations](docs/METRICS_AND_QUALITY.md) and the [original dataset](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) for context and terms.
+
 ## Download and quick start
 
 [Download the Power BI report (.pbix, approximately 35.2 MiB)](https://github.com/Nell0413/Marketplace-customer-growth-analytics/raw/refs/heads/main/powerbi/Dashboard_Commercial_Fulfilment_Final.pbix). Open it in **Power BI Desktop on Windows**; its imported snapshot can be viewed without rebuilding the pipeline. [Opening and refresh instructions](powerbi/POWER_BI_BUILD_GUIDE.md).
