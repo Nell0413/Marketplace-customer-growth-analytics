@@ -1,153 +1,153 @@
 # Marketplace Customer Growth Analytics
 
-**Independent portfolio project | SQL | Python | Power BI-ready model | Azure deployment blueprint**
+**Python · SQL · Power BI · Customer Growth · Commercial & Fulfilment Analytics**
 
-## Business brief
+An independent analytics portfolio project exploring what drives marketplace growth and where delivery performance puts customer experience at risk. It combines a reproducible Python and SQL workflow with a completed **two-page Power BI report**, using public Brazilian e-commerce data from Olist.
 
-This project asks a decision-oriented question:
+**[Download the Power BI report](https://github.com/Nell0413/Marketplace-customer-growth-analytics/raw/refs/heads/main/powerbi/Dashboard_Commercial_Fulfilment_Final.pbix)** · [Dashboard previews](#dashboard-previews) · [Key findings](#key-findings) · [Reproduce the analysis](#reproduce-the-analysis)
 
-> How can an e-commerce marketplace improve the quality of delivered GMV growth by increasing second purchases and improving the post-purchase experience, while prioritising commercially important customer, category and regional segments?
+| Delivered GMV | Delivered orders | Active customers | On-time delivery |
+| :--- | :--- | :--- | :--- |
+| **R$ 13.22M** | **96,478** | **93,358** | **91.9%** |
 
-It is not a generic sales dashboard. The analysis separates four decisions:
+*Delivered orders purchased from September 2016 to August 2018. Currency: BRL. GMV is delivered item value, not platform revenue or profit.*
 
-1. Is growth coming from customer acquisition, repeat purchasing, or order value?
-2. Which observed customer segments should CRM teams prioritise?
-3. Where is delivery performance most strongly associated with poor customer experience?
-4. Which category and regional combinations require commercial or operational attention?
+## Dashboard previews
 
-## Data
+### 1. Marketplace Performance Overview
 
-The project uses the [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/olistbr/brazilian-ecommerce/home). Olist describes it as real, anonymised commercial data covering approximately 100,000 orders from 2016 to 2018. The nine files include customers, orders, order items, products, sellers, payments, reviews, geolocation and an English category translation.
+An executive view of growth: monthly delivered GMV and orders, a comparable-period growth breakdown, first versus repeat order contribution, and the headline customer and delivery KPIs.
 
-The local pipeline processes **1,550,922 source rows**, including **96,478 delivered orders** and **93,358 observed customers**.
+[![Marketplace Performance Overview — delivered GMV, orders, customers, growth drivers and order mix](docs/images/marketplace-performance-overview.png)](docs/images/marketplace-performance-overview.png)
 
-Important definitions:
+**Decision supported:** assess whether growth comes from more customers and orders or higher order value, and identify the role of observed repeat purchasing.
 
-- **Delivered GMV** is the sum of item `price` for delivered orders. It is a GMV proxy, not Olist revenue, profit or margin.
-- **Repeat customer** means a `customer_unique_id` with at least two delivered orders inside the observed period.
-- **90-day second-purchase rate** excludes first-time customers without a complete 90-day observation window.
-- **On-time delivery** means actual customer delivery date was on or before the estimated date.
-- **Low review** means an observed review score of 1 or 2.
+### 2. Commercial & Fulfilment Performance
 
-## What is implemented
+A commercial and operations view combining the top product categories, state-level GMV and on-time delivery, freight burden, delivery time, and customer reviews.
 
-- Python ingestion, cleaning, feature engineering and repeatable data-quality tests across all nine source files.
-- A local SQLite analytical database containing staging tables, separate order- and item-level facts, conformed dimensions and reusable SQL marts.
-- SQL CTEs and window functions for monthly performance, customer lifecycle, cohort retention, repeat-purchase windows, category/state performance, payment mix and delivery experience.
-- Power BI-ready fact, dimension and customer-segmentation CSVs.
-- A documented Power BI semantic model, DAX library and five-page dashboard specification.
-- A documented Azure proof-of-concept deployment path using ADLS Gen2, Azure Data Factory, Azure SQL Database and Power BI.
+[![Commercial and Fulfilment Performance — category GMV, state delivery performance and customer experience](docs/images/commercial-fulfilment-performance.png)](docs/images/commercial-fulfilment-performance.png)
 
-The Azure resources and Power BI report are **not represented as deployed in this repository**. The documentation distinguishes the current local implementation from claims that can only be used after a verified cloud deployment and dashboard build.
+**Decision supported:** prioritise commercially significant delivery gaps and investigate the association between late delivery and poor customer reviews.
 
-## Analytical architecture
+Both pages include **Period** and **State** slicers and a reset control. The growth-driver visual uses the fixed **Jan–Jul 2018 versus Jan–Jul 2017** comparison; the State filter applies. Previews show all periods and states selected. Click an image to view it at full resolution.
+
+## Open the Power BI report
+
+1. [Download `Dashboard_Commercial_Fulfilment_Final.pbix`](https://github.com/Nell0413/Marketplace-customer-growth-analytics/raw/refs/heads/main/powerbi/Dashboard_Commercial_Fulfilment_Final.pbix) — approximately **35.2 MiB**.
+2. Open it in **Microsoft Power BI Desktop on Windows**. The saved report includes its imported data model, so the existing pages can be viewed without rebuilding the Python pipeline.
+3. Use the page tabs and slicers to explore the report. Save a local copy if you want to make changes.
+
+GitHub displays the screenshots and documentation; the PBIX provides the interactive report in Desktop. To refresh the model on another computer, rebuild the source CSVs and update the local file connections as described in the [Power BI guide](powerbi/POWER_BI_BUILD_GUIDE.md#refresh-on-another-computer).
+
+## Key findings
+
+| Finding | Evidence | Business implication |
+| :--- | :--- | :--- |
+| Growth was driven mainly by volume | Jan–Jul delivered GMV grew **161.6%** year on year; orders grew **160.8%**, while AOV rose about **0.3%**. | Track customer and order growth alongside order value. |
+| Repeat purchasing was limited in the observation window | **3.0%** of observed customers placed at least two delivered orders; repeat orders contributed **2.9%** of GMV. | Test a defined second-purchase journey. |
+| Delivery performance varied by state | On-time delivery was **94.1% in SP**, **86.5% in RJ** and **86.0% in BA**. SP contributed **38.3%** of delivered GMV. | Protect service in the largest market and investigate regional exceptions. |
+| Late delivery was associated with poorer reviews | **54.0%** of reviewed late orders received 1–2 stars, versus **9.2%** of reviewed on-time or early orders: **5.9×** the rate. | Investigate seller, category and delivery drivers; this is an association, not a causal estimate. |
+
+The supporting SQL/Python analysis also covers cohort retention, fixed-window second purchases and rule-based RFM segments. It finds a **2.28%** 90-day second-purchase rate across **75,320** eligible customers, and an **At-risk high-value** segment containing **12,790** customers who account for **33.8%** of observed GMV. These analyses are available in `results/`; they are not additional pages in the two-page PBIX.
+
+See the [executive summary](results/executive_summary.md) and [machine-readable headline metrics](results/headline_metrics.json) for supporting calculations. Recommendations are proposals for testing, not measured business outcomes.
+
+## Data and metric definitions
+
+**Source:** [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce). Nine source files cover customers, orders, items, products, sellers, payments, reviews, geolocation and category translations. The pipeline processes **1,550,922 source rows**.
+
+| Metric | Definition |
+| :--- | :--- |
+| Delivered GMV | Sum of item `price` for delivered orders; excludes freight. |
+| Delivered orders / active customers | Distinct delivered `order_id` / `customer_unique_id` within the selected observation window. |
+| Average order value | Delivered GMV divided by delivered orders. |
+| Repeat customer rate | Share of observed customers with at least two delivered orders in the selected observation window. |
+| Repeat order GMV | GMV from a customer's second or later delivered order, sequenced across the available history. |
+| Freight to GMV | Delivered freight value divided by delivered item GMV. |
+| On-time delivery rate | Share of delivered orders marked on time: actual delivery on or before the estimated date. |
+| Average review / low-review rate | Mean observed review score / share of reviewed delivered orders with a score of 1 or 2. |
+| 90-day second-purchase rate | Share making a second delivered purchase within 90 days, restricted to customers with a complete follow-up window. |
+
+The [data dictionary](docs/DATA_DICTIONARY.md) describes source fields, grains and analytical outputs.
+
+## Implementation and data quality
 
 ```mermaid
 flowchart LR
     A[9 Olist CSV files] --> B[Python validation and transformation]
-    B --> C[(SQLite staging tables)]
-    C --> D[Order and item facts]
-    C --> E[Customer, product, seller and date dimensions]
-    D --> F[SQL analytical marts]
-    E --> F
-    F --> G[Verified CSV and JSON results]
-    D --> H[Power BI-ready semantic model]
-    E --> H
+    B --> C[(SQLite analytical database)]
+    B --> D[Order/item facts and dimensions]
+    C --> E[SQL marts and analysis]
+    E --> F[CSV/JSON results]
+    D --> G[Power BI imported model and DAX]
+    G --> H[Two-page interactive report]
 ```
 
-Target Azure proof of concept:
+- **Python:** ingestion, category translation, delivery/review features, repeat-order sequencing, dimensional exports and rule-based customer segmentation.
+- **SQL:** reusable marts with CTEs and window functions for monthly performance, cohorts, second-purchase windows, category/state performance and delivery experience.
+- **Power BI:** a saved imported model, DAX measures, two report pages and screenshots captured from the final PBIX in Desktop.
+- **Azure:** an [ADLS Gen2 / Data Factory / Azure SQL deployment blueprint](azure/AZURE_DEPLOYMENT_GUIDE.md). Cloud deployment and Power BI Service publishing are not claimed.
 
-```mermaid
-flowchart LR
-    A[Public source files] --> B[ADLS Gen2 raw]
-    B --> C[Azure Data Factory]
-    C --> D[(Azure SQL staging)]
-    D --> E[(Azure SQL facts, dimensions and marts)]
-    E --> F[Power BI semantic model]
-```
+`fact_orders` contains one row per order; `fact_sales` contains one row per order item. Keeping these grains separate avoids inflating monetary values when joining multiple items, payments and reviews. Customer, product, seller and date dimensions support analysis across the facts.
 
-Microsoft documents the same core Blob/ADLS-to-Azure SQL copy pattern for [Azure Data Factory](https://learn.microsoft.com/en-us/azure/data-factory/tutorial-copy-data-tool), and Power BI supports an [Azure SQL Database connector](https://learn.microsoft.com/en-us/power-query/connectors/azure-sql-database).
+The committed [data-quality report](results/data_quality_report.json) records:
 
-## Data model
+- **99,441 order rows** and **112,650 item rows**, including **96,478 delivered orders**.
+- Zero duplicate keys in the tested source entities and zero orphan item references to orders, products or sellers.
+- Zero negative item prices or freight values, and zero deliveries recorded before purchase.
+- **R$ 0.00** delivered-GMV reconciliation difference between the order and item facts.
+- **99.33%** review coverage among delivered orders; missing reviews are excluded from review-rate denominators.
 
-The project deliberately keeps different grains separate:
+## Reproduce the analysis
 
-- `fact_orders`: one row per order; used for status, customer, delivery, review, payment and order-level KPIs.
-- `fact_sales`: one row per order item; used for product, category, seller, item GMV and freight analysis.
-- `dim_customer`: one row per `customer_unique_id`, using the latest observed location.
-- `dim_product`: one row per product with translated category and product attributes.
-- `dim_seller`: one row per seller.
-- `dim_date`: one row per calendar date.
-- `mart_customer_rfm`: one row per observed customer with recency, frequency, observed GMV and a transparent rule-based segment.
+Use Python **3.10 or later**. Clone or download this repository, then obtain the nine Olist CSV files from the source link and place them in `data/raw/`. Keep their original filenames.
 
-This prevents a common analytical error: joining multiple order items, multiple payments and multiple reviews directly on `order_id` creates fan-out duplication and overstates financial values. The pipeline aggregates each source to the required grain before order-level reconciliation.
-
-## Verified findings
-
-- Delivered GMV was **BRL 13.22 million**, with average order value of **BRL 137.04**.
-- Jan-Jul 2018 delivered GMV was **161.6%** above Jan-Jul 2017; delivered orders grew **160.8%**.
-- Only **3.00%** of observed customers placed at least two delivered orders. Repeat orders contributed **2.90%** of delivered GMV.
-- The censoring-adjusted 90-day second-purchase rate was **2.28%** across **75,320** eligible customers.
-- **91.9%** of delivered orders arrived by the estimated date.
-- Late orders averaged **2.57/5** versus **4.29/5** for on-time or early orders.
-- **54.0%** of reviewed late orders received a score of 1-2, compared with **9.2%** of reviewed on-time or early orders - a **5.9x association**, not a causal estimate.
-- A rule-based `At-risk high-value` segment contained **12,790 customers**, or **13.7%** of observed customers, and represented **33.8%** of observed GMV.
-- Sao Paulo represented **38.3%** of delivered GMV. On-time performance was **94.1%** in SP versus **86.5%** in RJ and **86.0%** in BA.
-
-The full, reproducible summary is in [`results/executive_summary.md`](results/executive_summary.md).
-
-## Recommendations
-
-1. **Design a second-purchase test:** target eligible first-time customers in a defined post-purchase window and use second-purchase rate as the primary KPI.
-2. **Prioritise delivery exceptions by commercial value:** investigate high-GMV seller/category/region combinations with low on-time rates instead of applying a blanket operational response.
-3. **Create a reactivation test audience:** use the transparent `At-risk high-value` segment as a starting point, then test incrementality rather than assuming all historical high-value customers are recoverable.
-4. **Investigate RJ and BA service gaps:** decompose their weaker on-time performance by seller, category, freight burden and route before recommending carrier or seller action.
-
-## Reproduce the project
-
-1. Download the Olist dataset and place the nine CSV files in `data/raw/`.
-2. Create a Python environment and install the dependencies:
+From the repository root:
 
 ```bash
 python -m venv .venv
+```
+
+Activate the environment:
+
+```powershell
+# Windows PowerShell
+.\.venv\Scripts\Activate.ps1
+```
+
+```bash
+# macOS / Linux
 source .venv/bin/activate
-pip install -r requirements.txt
 ```
 
-3. Build the facts, dimensions, SQLite database and validation report:
+Install dependencies, build the analytical model, and export the results:
 
 ```bash
+python -m pip install -r requirements.txt
 python src/build_project.py
-```
-
-4. Run the analysis and export all verified results:
-
-```bash
 python src/run_analysis.py
 ```
 
-## Repository map
+The pipeline writes the SQLite database and model CSVs to `data/processed/`, and analytical outputs to `results/`. Raw and processed data directories are excluded from Git. The downloadable PBIX contains an imported analytical snapshot; refreshing it requires reconnecting its Power Query sources to the regenerated files.
 
-```text
-data/raw/                       Source files (excluded from Git)
-data/processed/                 SQLite database and Power BI-ready CSVs
-src/build_project.py            Ingestion, validation and dimensional modelling
-src/run_analysis.py             Business analysis and result exports
-sql/01_create_analytics_views.sql
-                                SQL marts, CTEs and window-function analysis
-results/                        Reproducible metrics, data-quality output and summary
-powerbi/POWER_BI_BUILD_GUIDE.md Semantic model, DAX and report pages
-azure/AZURE_DEPLOYMENT_GUIDE.md Honest cloud proof-of-concept instructions
-docs/PROJECT_EXPERIENCE.md       Resume bullets and interview story
-docs/DATA_DICTIONARY.md          Grain, fields and KPI definitions
-```
+## Repository guide
 
-## Limitations
+| Path | Contents |
+| :--- | :--- |
+| [`powerbi/`](powerbi/) | Final PBIX and instructions for opening, filtering and refreshing the report. |
+| [`docs/images/`](docs/images/) | Two full-resolution previews of the final report. |
+| [`src/build_project.py`](src/build_project.py) | Ingestion, validation, feature engineering and dimensional modelling. |
+| [`src/run_analysis.py`](src/run_analysis.py) | Analytical queries and result exports. |
+| [`sql/01_create_analytics_views.sql`](sql/01_create_analytics_views.sql) | SQL marts, CTEs and window-function analysis. |
+| [`results/`](results/) | Metrics, data-quality evidence, cohort/RFM outputs and executive summary. |
+| [`docs/DATA_DICTIONARY.md`](docs/DATA_DICTIONARY.md) | Table grains, fields and KPI definitions. |
+| [`azure/AZURE_DEPLOYMENT_GUIDE.md`](azure/AZURE_DEPLOYMENT_GUIDE.md) | Optional cloud proof-of-concept architecture and deployment steps. |
 
-- The historical Brazil dataset demonstrates transferable methods; it does not represent current Australian customer behaviour.
-- There are no visits, impressions, carts or marketing costs, so conversion, cart abandonment, CAC and ROAS cannot be calculated.
-- There is no platform commission, inventory cost or cost of goods, so profit and margin cannot be calculated.
-- Observed repeat purchasing is not lifetime retention or true customer lifetime value.
-- Delivery and review patterns are observational and should not be described as causal effects.
-- The final observation month is right-censored; fixed-window repeat rates exclude customers without enough follow-up time.
+## Scope and limitations
 
+- This is an independent portfolio project using historical Brazilian marketplace data, with no affiliation to Olist. Findings do not describe current market behaviour.
+- September 2016 and August 2018 are partial observation months. Observed repeat purchasing is not lifetime retention or customer lifetime value.
+- There are no visits, carts or marketing costs, so conversion, cart abandonment, CAC and ROAS cannot be calculated. Platform commissions and costs are also unavailable, so GMV cannot be interpreted as revenue, profit or margin.
+- Delivery and review results are observational. No intervention, retention uplift or operational improvement has been measured.
+- Credit for the source data belongs to Olist and the dataset contributors; consult the original dataset page for its terms.
