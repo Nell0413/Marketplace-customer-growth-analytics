@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+from contextlib import closing
 from pathlib import Path
 
 import numpy as np
@@ -385,7 +386,7 @@ def load_sqlite(
     """Load staging and analytical tables, then create reusable SQL views."""
     if DB_PATH.exists():
         DB_PATH.unlink()
-    with sqlite3.connect(DB_PATH) as connection:
+    with closing(sqlite3.connect(DB_PATH)) as connection, connection:
         for name, dataframe in sources.items():
             sqlite_ready(dataframe).to_sql(
                 f"stg_{name}",
@@ -446,4 +447,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

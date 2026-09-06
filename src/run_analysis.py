@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+from contextlib import closing
 from pathlib import Path
 
 import pandas as pd
@@ -32,7 +33,7 @@ def scalar_row(connection: sqlite3.Connection, query: str) -> dict[str, object]:
 
 def main() -> None:
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-    with sqlite3.connect(DB_PATH) as connection:
+    with closing(sqlite3.connect(DB_PATH)) as connection:
         frames: dict[str, pd.DataFrame] = {}
         for name, query in EXPORTS.items():
             frame = pd.read_sql_query(query, connection)
@@ -204,4 +205,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
