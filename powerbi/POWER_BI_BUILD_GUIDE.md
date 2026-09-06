@@ -31,15 +31,24 @@ The PBIX contains its imported data snapshot. Viewing the saved report does not 
 
 ## Refresh on another computer
 
-The saved queries reference local CSV files from the original authoring computer. Those paths are not portable.
+The saved queries reference local CSV files from the original authoring computer. Those paths are not portable. The supplied [RefreshQueries.pq](RefreshQueries.pq) replaces them with a shared folder parameter; it must first be applied in Desktop. The existing PBIX and the layout-only candidate do **not** already contain these replacements.
 
-1. Follow the [repository reproduction steps](../README.md#reproduce-the-analysis) to generate the model CSVs in `data/processed/`.
-2. In Power BI Desktop, open **File → Options and settings → Data source settings**, select the file connections and update their paths. If a connection cannot be changed there, open **Transform data** and edit that query's Source step.
-3. Check the applied steps, column names, encodings and data types before refreshing. Some imported dimension fields retain generic names such as `Column1`; preserve the names used by the existing relationships and DAX, or update their dependent references deliberately.
-4. Apply changes, refresh, reset filters, and reconcile the headline cards with [`results/headline_metrics.json`](../results/headline_metrics.json).
-5. Save the refreshed report as a separate local copy.
+1. Follow [Reproducibility](../docs/REPRODUCIBILITY.md) to generate the seven model CSVs in `data/processed/`. Copy all seven together if using a different data directory.
+2. Open **Transform data → Manage Parameters → New Parameter**. Name it `DataFolder`, type **Text**, and set its current value to your processed-data folder, for example `C:\\Projects\\Marketplace Data\\processed`. No trailing slash is needed.
+3. Create a **Blank Query**, name it `RefreshQueries`, open **Advanced Editor**, and paste the complete contents of [RefreshQueries.pq](RefreshQueries.pq). Disable load for this helper query; it returns a record of seven tables.
+4. In each of the existing seven CSV queries, replace the Advanced Editor content with `let Source = RefreshQueries[fact_orders] in Source`, replacing `fact_orders` with that query's exact existing name. Do not delete/recreate tables or change `_Measures`, calculated columns, relationships or State slicer bindings.
+5. Apply changes, refresh, reset filters, and reconcile with [`results/headline_metrics.json`](../results/headline_metrics.json). Save as a separate PBIX.
+6. Copy the CSVs to another folder containing spaces/non-ASCII characters, change **only** `DataFolder`, and refresh again. Compare totals and filter behaviour with the first location using the [Windows checklist](../docs/WINDOWS_VALIDATION.md).
 
-The refresh instructions describe the manual reconnection procedure; a refresh from an arbitrary new source directory is not automated.
+The replacement queries read UTF-8 and quoted CSV fields, parse month keys explicitly, and preserve `dim_customer[Column1]`, `[Column2]` and `[State]` while correctly removing the CSV header row. `fact_sales[review_score]` is imported as a decimal, preserving averaged review values. These are source-level corrections; Windows runtime verification is still required.
+
+Before Desktop refresh, validate both sets of files from any working directory:
+
+```bash
+python scripts/check_refresh_sources.py "/first/processed" --compare-with "/second/processed"
+```
+
+This checks seven CSV schemas, UTF-8 readability, row counts and byte-identical relocation. It does not execute Power Query or DAX. Microsoft's [parameter documentation](https://learn.microsoft.com/en-us/power-query/power-query-query-parameters) describes the parameter setup.
 
 Model source files:
 
@@ -74,4 +83,4 @@ The unfiltered saved report displays the following rounded values:
 
 Exact source results include delivered GMV of **R$ 13,221,498.11**, **96,478** delivered orders and **93,358** customers. The order/item GMV reconciliation difference in the committed data-quality output is **R$ 0.00**.
 
-Delivered GMV excludes freight and is not revenue, profit or margin. Review rates use reviewed delivered orders. The late/on-time low-review multiple is an observational association, not a causal effect. Full metric definitions and limitations are in the [README](../README.md#data-and-metric-definitions).
+Delivered GMV excludes freight and is not revenue, profit or margin. Review rates use reviewed delivered orders. The late/on-time low-review multiple is an observational association, not a causal effect. See [Metrics and quality](../docs/METRICS_AND_QUALITY.md) and the [actual model, DAX and filter paths](../docs/POWER_BI_MODEL.md).
