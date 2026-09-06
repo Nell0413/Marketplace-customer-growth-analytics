@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title description">
+  <title id="title">Actual active relationships in the delivered Power BI model</title>
+  <desc id="description">Date and the customer RFM mart filter orders. Orders filter order items. Customer, product and seller dimensions directly filter order items. State is selected from fact_orders, so it reaches both fact tables. All six shown relationships are active, one-to-many, and single direction. Four inactive relationships are listed in the accompanying model document.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10Z" fill="#23679B"/></marker>
+    <style>
+      text{font-family:Arial,Helvetica,sans-serif;fill:#102D44}
+      .title{font-size:27px;font-weight:700}
+      .subtitle{font-size:16px;fill:#506779}
+      .name{font-size:21px;font-weight:700}
+      .body{font-size:16px}
+      .small{font-size:14px;fill:#506779}
+      .box{fill:white;stroke:#C5D4E1;stroke-width:1.5}
+      .fact{fill:#EAF3FA;stroke:#23679B;stroke-width:2}
+      .edge{fill:none;stroke:#23679B;stroke-width:2.5;marker-end:url(#arrow)}
+      .key{font-size:15px;font-family:Consolas,monospace}
+      .cardinality{font-size:18px;font-weight:700;fill:#23679B}
+    </style>
+  </defs>
+  <rect width="1280" height="760" fill="#F7FAFD"/>
+  <text class="title" x="40" y="49">How Period and State reach both fact tables</text>
+  <text class="subtitle" x="40" y="80">Actual PBIX model · active 1:* filter paths · static metadata audit, 6 September 2026</text>
+
+  <rect class="box" x="40" y="140" width="285" height="115" rx="10"/>
+  <text class="name" x="60" y="172">dim_date</text>
+  <text class="key" x="60" y="202">date</text>
+  <text class="body" x="60" y="231">Period slicer: [Period]</text>
+  <path class="edge" d="M325 198 H388 V279 H465"/>
+  <text class="cardinality" x="337" y="186">1</text><text class="cardinality" x="444" y="268">*</text>
+
+  <rect class="box" x="40" y="330" width="285" height="125" rx="10"/>
+  <text class="name" x="60" y="363">mart_customer_rfm</text>
+  <text class="key" x="60" y="394">customer_unique_id</text>
+  <text class="small" x="60" y="423">Whole-history customer metrics</text>
+  <path class="edge" d="M325 392 H397 V376 H465"/>
+  <text class="cardinality" x="337" y="380">1</text><text class="cardinality" x="444" y="364">*</text>
+
+  <rect class="fact" x="465" y="240" width="320" height="205" rx="10"/>
+  <text class="name" x="485" y="274">fact_orders</text>
+  <text class="body" x="485" y="305">One row per order</text>
+  <text class="key" x="485" y="333">order_id · purchase_date</text>
+  <text class="key" x="485" y="360">customer_unique_id</text>
+  <text class="body" x="485" y="391">State slicer: [customer_state]</text>
+  <text class="small" x="485" y="421">Orders · repeat customers · reviews</text>
+  <path class="edge" d="M785 337 H890"/>
+  <text class="cardinality" x="799" y="323">1</text><text class="cardinality" x="867" y="323">*</text>
+  <text class="small" x="806" y="359">order_id</text>
+
+  <rect class="box" x="890" y="120" width="330" height="125" rx="10"/>
+  <text class="name" x="910" y="154">dim_customer</text>
+  <text class="key" x="910" y="185">Column1 (customer key)</text>
+  <text class="small" x="910" y="215">Not the report's State slicer</text>
+  <path class="edge" d="M1055 245 V300"/>
+  <text class="cardinality" x="1067" y="263">1</text><text class="cardinality" x="1067" y="289">*</text>
+
+  <rect class="fact" x="890" y="300" width="330" height="200" rx="10"/>
+  <text class="name" x="910" y="333">fact_sales</text>
+  <text class="body" x="910" y="365">One row per order item</text>
+  <text class="key" x="910" y="396">order_id + order_item_id</text>
+  <text class="key" x="910" y="424">product_id · seller_id</text>
+  <text class="small" x="910" y="458">Item prices · category GMV</text>
+  <text class="small" x="910" y="482">Filters do not flow back to orders</text>
+
+  <rect class="box" x="890" y="580" width="330" height="105" rx="10"/>
+  <text class="name" x="910" y="615">dim_product</text>
+  <text class="key" x="910" y="647">product_id</text>
+  <path class="edge" d="M1055 580 V500"/>
+  <text class="cardinality" x="1067" y="569">1</text><text class="cardinality" x="1067" y="523">*</text>
+
+  <rect class="box" x="465" y="580" width="320" height="105" rx="10"/>
+  <text class="name" x="485" y="615">dim_seller</text>
+  <text class="key" x="485" y="647">seller_id</text>
+  <path class="edge" d="M785 632 H838 V451 H890"/>
+  <text class="cardinality" x="799" y="619">1</text><text class="cardinality" x="867" y="439">*</text>
+
+  <rect x="40" y="514" width="353" height="171" rx="10" fill="#FFF4DC" stroke="#E8D49C"/>
+  <text class="body" x="60" y="545" font-weight="700">Keep the implemented route</text>
+  <text class="small" x="60" y="575">State → orders → order items</text>
+  <text class="small" x="60" y="602">Period → orders → order items</text>
+  <text class="small" x="60" y="635">Four inactive relationships are listed</text>
+  <text class="small" x="60" y="659">in docs/POWER_BI_MODEL.md.</text>
+  <text class="small" x="40" y="732">Diagram omits inactive links, helper tables and automatic local date tables. Arrows indicate filter direction, not ETL data movement.</text>
+</svg>
